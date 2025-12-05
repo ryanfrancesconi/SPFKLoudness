@@ -6,17 +6,11 @@ import PackageDescription
 let package = Package(
     name: "spfk-loudness",
     defaultLocalization: "en",
-    platforms: [
-        .macOS(.v12),
-        .iOS(.v15),
-    ],
+    platforms: [.macOS(.v12), .iOS(.v15),],
     products: [
         .library(
             name: "SPFKLoudness",
-            targets: [
-                "SPFKLoudness",
-                "SPFKLoudnessC",
-            ]
+            targets: ["SPFKLoudness", "SPFKLoudnessC",]
         ),
     ],
     dependencies: [
@@ -30,17 +24,15 @@ let package = Package(
         .target(
             name: "SPFKLoudness",
             dependencies: [
-                "SPFKLoudnessC",
+                .targetItem(name: "SPFKLoudnessC", condition: nil),
                 .product(name: "SPFKAudioBase", package: "spfk-audio-base"),
                 .product(name: "SPFKBase", package: "spfk-base"),
                 .product(name: "SPFKUtils", package: "spfk-utils"),
             ]
         ),
-
         .target(
             name: "SPFKLoudnessC",
-            dependencies: [
-            ],
+            dependencies: [],
             publicHeadersPath: "include",
             cSettings: [
                 .headerSearchPath("include_private")
@@ -49,14 +41,14 @@ let package = Package(
                 .headerSearchPath("include_private")
             ]
         ),
-
         .testTarget(
             name: "SPFKLoudnessTests",
             dependencies: [
-                "SPFKLoudness",
-                "SPFKLoudnessC",
+                .targetItem(name: "SPFKLoudness", condition: nil),
+                .targetItem(name: "SPFKLoudnessC", condition: nil),
                 .product(name: "SPFKTesting", package: "spfk-testing"),
             ]
         ),
-    ]
+    ],
+    cxxLanguageStandard: .cxx20
 )
